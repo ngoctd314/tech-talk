@@ -3,38 +3,32 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
-func main() {
-	for i := 0; i < 10000000; i++ {
-		fn()
-	}
+type value struct {
+	mu    sync.Mutex
+	value int
 }
 
-func fn() {
-	var memoryAccess sync.Mutex
-	var value int
-	var s string
+func main() {
+	var wg sync.WaitGroup
+	printSum := func(v1, v2 *value) {
+		defer wg.Done()
+		v1.mu.Lock()
+		defer v1.mu.Unlock()
 
-	go func() {
-		memoryAccess.Lock()
-		value++
-		memoryAccess.Unlock()
-	}()
+		time.Sleep(time.Second * 2)
+		v2.mu.Lock()
+		defer v2.mu.Unlock()
 
-	memoryAccess.Lock()
-	if value == 0 {
-		s = fmt.Sprintf("value:%d", value)
+		fmt.Printf("sum=%v\n", v1.value+v2.value)
 	}
-	memoryAccess.Unlock()
 
-	// if s == "value:0" {
-	// 	fmt.Println("RUN")
-	// }
-	// if s == "value:1" {
-	// 	fmt.Println("RUN")
-	// }
-	if s == "" {
-		fmt.Println("RUN")
-	}
+	var a, b value
+	wg.Add(2)
+	go printSum(&a, &b)
+	go printSum(&b, &a)
+
+	wg.Wait()
 }

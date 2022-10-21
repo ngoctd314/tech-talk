@@ -109,6 +109,57 @@ We have solved our data race, we haven't actually solved our race condition! The
 
 ## Deadlocks, Livelocks, and Starvation
 
-**Deadlock**
+### Deadlock
 
 A deadlocked program is one in which all concurrent processes are waiting on one another. In this state, the program will never recover without outside intervention.
+
+```go
+type value struct {
+	mu    sync.Mutex
+	value int
+}
+
+func main() {
+	var wg sync.WaitGroup
+	printSum := func(v1, v2 *value) {
+		defer wg.Done()
+		v1.mu.Lock()
+		defer v1.mu.Unlock()
+
+		time.Sleep(time.Second * 2)
+		v2.mu.Lock()
+		defer v2.mu.Unlock()
+
+		fmt.Printf("sum=%v\n", v1.value+v2.value)
+	}
+
+	var a, b value
+	wg.Add(2)
+    // We have created two gears that cannot turn together: our first call to print Sum locks
+    // a and then attempts to lock b, but in the meantime our second call to print Sum has locked b and 
+    // has attempted to lock a. Both goroutines wait infinitely on each other.
+	go printSum(&a, &b)
+	go printSum(&b, &a)
+
+	wg.Wait()
+}
+
+```
+
+**Coffman Conditions**
+
+1. Mutual Exclusion
+
+A concurrent process holds exclusive rights to a resource at any one time.
+
+2. Wait For Condition
+
+A concurrent process must simultaneously hold a resource and be waiting for an additional resource.
+
+3. No Preemption
+
+A resource held by a concurrent process can only be released by that process, so it fulfills this condition.
+
+4. Circular Wait
+
+A concurrent process (P1) must be waiting on a chain of other concurrent process (P2), which are in turn waiting on it (P1), so it fulfills this final condition too.
