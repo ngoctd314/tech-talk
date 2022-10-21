@@ -6,29 +6,49 @@ import (
 	"time"
 )
 
-type value struct {
-	mu    sync.Mutex
-	value int
-}
-
 func main() {
 	var wg sync.WaitGroup
-	printSum := func(v1, v2 *value) {
+	var sharedLock sync.Mutex
+	const runtime = 1 * time.Second
+
+	greedyWorker := func() {
 		defer wg.Done()
-		v1.mu.Lock()
-		defer v1.mu.Unlock()
 
-		time.Sleep(time.Second * 2)
-		v2.mu.Lock()
-		defer v2.mu.Unlock()
-
-		fmt.Printf("sum=%v\n", v1.value+v2.value)
+		var count int
+		for begin := time.Now(); time.Since(begin) <= runtime; {
+			sharedLock.Lock()
+			time.Sleep(time.Nanosecond * 3)
+			sharedLock.Unlock()
+			count++
+		}
+		fmt.Printf("Greedy worker was able to execute %v work loops\n", count)
 	}
 
-	var a, b value
+	politeWorker := func() {
+		defer wg.Done()
+
+		var count int
+		for begin := time.Now(); time.Since(begin) <= runtime; {
+			sharedLock.Lock()
+			time.Sleep(time.Nanosecond * 1)
+			sharedLock.Unlock()
+
+			sharedLock.Lock()
+			time.Sleep(time.Nanosecond * 1)
+			sharedLock.Unlock()
+
+			sharedLock.Lock()
+			time.Sleep(time.Nanosecond * 1)
+			sharedLock.Unlock()
+
+			count++
+		}
+		fmt.Printf("Polite worker was able to execute %v work loops.\n", count)
+	}
+
 	wg.Add(2)
-	go printSum(&a, &b)
-	go printSum(&b, &a)
+	go greedyWorker()
+	go politeWorker()
 
 	wg.Wait()
 }

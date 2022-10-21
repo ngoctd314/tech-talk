@@ -163,3 +163,16 @@ A resource held by a concurrent process can only be released by that process, so
 4. Circular Wait
 
 A concurrent process (P1) must be waiting on a chain of other concurrent process (P2), which are in turn waiting on it (P1), so it fulfills this final condition too.
+
+So if we ensure that at least one of these conditions is not true, we can prevent deadlocks from occurring.
+
+### Livelock
+
+Livelocks are programs that are actively performing concurrent operations, but these operations do nothing to move the state of the program forward.
+
+### Starvation
+
+Starvation is any situation where a concurrent process cannot get all the resources it needs to perform work. In a livelock, all the concurrent processes are starved equally, and no work is accomplished. More broadly, starvation usually implies that there are one or more greedy concurrent process that are unfairly preventing one ore more concurrent processes from accomplishing work as efficiently as possible, or maybe at all.
+
+```go
+```
