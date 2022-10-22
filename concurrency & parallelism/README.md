@@ -175,4 +175,21 @@ Livelocks are programs that are actively performing concurrent operations, but t
 Starvation is any situation where a concurrent process cannot get all the resources it needs to perform work. In a livelock, all the concurrent processes are starved equally, and no work is accomplished. More broadly, starvation usually implies that there are one or more greedy concurrent process that are unfairly preventing one ore more concurrent processes from accomplishing work as efficiently as possible, or maybe at all.
 
 ```go
+
 ```
+
+So starvation can cause your program to behave inefficiently or incorrectly. The prior example demonstrates an inefficiency, but if you have a concurrent process that is so greedy as to complete prevent another concurrent process from accomplishing work, you have a larger problem on your hands.
+
+Keep in mind that starvation can also apply to CPU, memory, file handles, database connections: any resource that must be shared is a candidate for starvation.
+
+## Modeling your code: Communicating Sequential Processes
+
+### The difference between concurrency and parallelism
+
+Concurrency is a property of the code; parallelism is a property of the running program.
+
+We don't write parallel code, only concurrent code that we hope will be run in parallel. Once again, parallelism is a property of the runtime of our program, not the code.
+
+## Communication Sequential Processes (CSP)
+
+### What is CSP? 
