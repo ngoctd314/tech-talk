@@ -193,3 +193,9 @@ We don't write parallel code, only concurrent code that we hope will be run in p
 ## Communication Sequential Processes (CSP)
 
 ### What is CSP? 
+
+## Concurrency is not parallelism
+
+Concurrency is about dealing with lots of things at once. Parallelism is about doing lots of things at once.
+
+Concurrency is about structure, parallelism about execution. Concurrency provides a way to structure a solution to solve a problem that may (but not necessarily) be parallelize.
