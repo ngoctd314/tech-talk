@@ -10,18 +10,27 @@ import (
 	"time"
 )
 
+func execIn1s() {
+	now := time.Now()
+	for j := 0; j < 4_000_000_000; j++ {
+	}
+	log.Println("time execute a heavy load function: ", time.Since(now))
+}
+
 func main() {
 	fmt.Println("===================")
 	fmt.Println("GO VER: ", runtime.Version())
 	numCpu := os.Getenv("GOMAXPROCS")
 	procs, _ := strconv.Atoi(numCpu)
 	n := runtime.GOMAXPROCS(procs)
-	fmt.Println("num procs: ", n)
+	fmt.Println("num pros:", n)
 
-	// execIn1s()
+	execIn1s()
+	execIn1s()
+	execIn1s()
 
-	// sequentialVer()
-	concurrentVer(n) // expect time: t*[10/n]
+	// // sequentialVer()
+	// concurrentVer(n) // expect time: t*[10/n]
 }
 
 func sequentialVer() {
@@ -51,13 +60,6 @@ func concurrentVer(numCpu int) {
 
 	log.Println("since: ", time.Since(now))
 
-}
-
-func execIn1s() {
-	now := time.Now()
-	for j := 0; j < 4_000_000_000; j++ {
-	}
-	log.Println("time execute a heavy load function: ", time.Since(now))
 }
 
 func sleepIn1s() {

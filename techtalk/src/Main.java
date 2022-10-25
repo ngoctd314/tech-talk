@@ -15,6 +15,7 @@ public class Main extends Thread {
     public void combine() {
         this.start();
         this.compare();
+        // this.s = ?
     }
 }
 
