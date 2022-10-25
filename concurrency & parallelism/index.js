@@ -1,4 +1,5 @@
 let displaySection = 1;
+let maxSection = 4
 
 function decrement() {
     let newSection = displaySection
@@ -14,7 +15,7 @@ function decrement() {
 
 function increment() {
     let newSection = displaySection
-    if (displaySection < 2 ) {
+    if (displaySection < maxSection ) {
         newSection = displaySection+1;
     }
     if (newSection != displaySection) {

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"runtime"
 	"strconv"
@@ -18,6 +19,7 @@ func execIn1s() {
 }
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
 	fmt.Println("===================")
 	fmt.Println("GO VER: ", runtime.Version())
 	numCpu := os.Getenv("GOMAXPROCS")
@@ -26,11 +28,16 @@ func main() {
 	fmt.Println("num pros:", n)
 
 	execIn1s()
+<<<<<<< HEAD
 	execIn1s()
 	execIn1s()
 
 	// // sequentialVer()
 	// concurrentVer(n) // expect time: t*[10/n]
+=======
+	// sequentialVer()
+	concurrentVer(n) // expect time: t*[10/n]
+>>>>>>> e533d6b8910d14158c0abb1fbe98bcbde07b9408
 }
 
 func sequentialVer() {
@@ -49,8 +56,8 @@ func concurrentVer(numCpu int) {
 	now := time.Now()
 
 	wg := sync.WaitGroup{}
-	wg.Add(12)
-	for i := 0; i < 12; i++ {
+	wg.Add(4)
+	for i := 0; i < 4; i++ {
 		go func(i int) {
 			defer wg.Done()
 			execIn1s()
