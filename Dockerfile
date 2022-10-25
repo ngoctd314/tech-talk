@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY main.go .
 
-ENV GOMAXPROCS 1
+ENV GOMAXPROCS 3
 
 RUN go build -o ./run main.go
 
