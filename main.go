@@ -41,8 +41,8 @@ func concurrentVer(numCpu int) {
 	now := time.Now()
 
 	wg := sync.WaitGroup{}
-	wg.Add(4)
-	for i := 0; i < 4; i++ {
+	wg.Add(12)
+	for i := 0; i < 12; i++ {
 		go func(i int) {
 			defer wg.Done()
 			execIn1s()
@@ -56,7 +56,7 @@ func concurrentVer(numCpu int) {
 
 func execIn1s() {
 	now := time.Now()
-	for j := 0; j < 4_000_000_000; j++ {
+	for j := 0; j < 50_000_000_000; j++ {
 	}
 	log.Println("time execute a heavy load function: ", time.Since(now))
 }
