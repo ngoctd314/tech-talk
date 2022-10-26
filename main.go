@@ -13,7 +13,14 @@ import (
 
 func execIn1s() {
 	now := time.Now()
-	for j := 0; j < 4_000_000_000; j++ {
+	for j := 0; j < 8_000_000_000; j++ {
+	}
+	log.Println("time execute a heavy load function: ", time.Since(now))
+}
+
+func execIn2s() {
+	now := time.Now()
+	for j := 0; j < 16_000_000_000; j++ {
 	}
 	log.Println("time execute a heavy load function: ", time.Since(now))
 }
@@ -27,17 +34,8 @@ func main() {
 	n := runtime.GOMAXPROCS(procs)
 	fmt.Println("num pros:", n)
 
-	execIn1s()
-<<<<<<< HEAD
-	execIn1s()
-	execIn1s()
-
-	// // sequentialVer()
-	// concurrentVer(n) // expect time: t*[10/n]
-=======
 	// sequentialVer()
 	concurrentVer(n) // expect time: t*[10/n]
->>>>>>> e533d6b8910d14158c0abb1fbe98bcbde07b9408
 }
 
 func sequentialVer() {
@@ -56,13 +54,26 @@ func concurrentVer(numCpu int) {
 	now := time.Now()
 
 	wg := sync.WaitGroup{}
-	wg.Add(4)
-	for i := 0; i < 4; i++ {
-		go func(i int) {
-			defer wg.Done()
-			execIn1s()
-		}(i)
-	}
+
+	v := os.Getenv("JOBS")
+	n, _ := strconv.Atoi(v)
+
+	wg.Add(n)
+	// for i := 0; i < n; i++ {
+	// 	go func(i int) {
+	// 		defer wg.Done()
+	// 		execIn1s()
+	// 	}(i)
+	// }
+	go func() {
+		defer wg.Done()
+		execIn1s()
+	}()
+	go func() {
+		defer wg.Done()
+		execIn2s()
+	}()
+	fmt.Println("num goroutines: ", runtime.NumGoroutine())
 	wg.Wait()
 
 	log.Println("since: ", time.Since(now))
