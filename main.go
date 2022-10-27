@@ -13,7 +13,14 @@ import (
 
 func execIn1s() {
 	now := time.Now()
-	for j := 0; j < 4_000_000_000; j++ {
+	for j := 0; j < 8_000_000_000; j++ {
+	}
+	log.Println("time execute a heavy load function: ", time.Since(now))
+}
+
+func execIn2s() {
+	now := time.Now()
+	for j := 0; j < 16_000_000_000; j++ {
 	}
 	log.Println("time execute a heavy load function: ", time.Since(now))
 }
