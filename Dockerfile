@@ -2,9 +2,9 @@ FROM golang:1.17-alpine
 
 WORKDIR /app
 
-ENV GOMAXPROCS 2
+ENV GOMAXPROCS 6
 # 1 job - 1s
-ENV JOBS 2
+ENV JOBS 12
 # 0: sequential, 1: concurrent
 ENV VER 1
 

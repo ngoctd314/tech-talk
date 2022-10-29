@@ -1,5 +1,5 @@
 let displaySection = 1;
-let maxSection = 4
+let maxSection = 5
 
 function decrement() {
     let newSection = displaySection
