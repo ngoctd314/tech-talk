@@ -13,14 +13,14 @@ import (
 
 func execIn1s() {
 	now := time.Now()
-	for j := 0; j < 8_000_000_000; j++ {
+	for j := 0; j < 10_000_000_000; j++ {
 	}
 	log.Println("time execute a heavy load function: ", time.Since(now))
 }
 
 func execIn2s() {
 	now := time.Now()
-	for j := 0; j < 16_000_000_000; j++ {
+	for j := 0; j < 4_000_000_000; j++ {
 	}
 	log.Println("time execute a heavy load function: ", time.Since(now))
 }
@@ -59,20 +59,12 @@ func concurrentVer(numCpu int) {
 	n, _ := strconv.Atoi(v)
 
 	wg.Add(n)
-	// for i := 0; i < n; i++ {
-	// 	go func(i int) {
-	// 		defer wg.Done()
-	// 		execIn1s()
-	// 	}(i)
-	// }
-	go func() {
-		defer wg.Done()
-		execIn1s()
-	}()
-	go func() {
-		defer wg.Done()
-		execIn2s()
-	}()
+	for i := 0; i < n; i++ {
+		go func(i int) {
+			defer wg.Done()
+			execIn1s()
+		}(i)
+	}
 	fmt.Println("num goroutines: ", runtime.NumGoroutine())
 	wg.Wait()
 

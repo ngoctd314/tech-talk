@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY main.go .
 
-ENV GOMAXPROCS 1
+ENV GOMAXPROCS 12
 # JOBS = number of threads is created
-ENV JOBS 2
+ENV JOBS 12
 
 RUN go build -o ./run main.go
 
