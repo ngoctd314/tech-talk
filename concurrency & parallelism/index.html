@@ -13,18 +13,31 @@
     </section>
 
     <section id="1" class="center grid2x4">
-        <h2 >1. What is concurrency?</h2>
+        <h2 >1. Concurrency is not Parallelism</h2>
+        <div>
+            <img src="assets/5.1.svg"/>
+        </div>
+        <div>
+            <img src="assets/5.2.svg"/>
+        </div>
+        <div>
+            <img src="assets/5.3.svg"/>
+        </div>
+
+        <h2>2. Sequential x concurrency x parallelism</h2>
         <div>
             <img src="assets/1.1.svg" />
         </div>
-        <div>
-            <img src="assets/1.2.svg" />
+        <div style="cursor: pointer">
+            <img src="assets/1.2.svg" id="img-1.2" />
         </div>
-        <div>
-            <img src="assets/1.3.svg" />
+        <div style="cursor: pointer">
+            <img src="assets/1.3.svg" id="img-1.3"/>
         </div>
+    </section>
 
-        <h2>2. Why is concurrency hard?</h2>
+    <section id="2" class="center grid2x4" style="display: none">
+        <h2>3. Why is concurrency hard?</h2>
         <div>
             <img src="assets/2.1.svg" />
         </div>
@@ -34,15 +47,22 @@
         <div>
             <img src="assets/2.3.svg" />
         </div>
+        <h2></h2>
+        <div class="gridspan4_1">
+            <img src="assets/theory.jpg" style="width: 20vw; height: 20vw"/>
+            <img src="assets/practice.jpg" style="width: 20vw; height:20vw;"/>
+        </div>
+
     </section>
 
-    <section id="2" class="center grid2x4" style="display: none;">
-        <h2 >3.1 Basic Example</h2>
+
+    <section id="3" class="center grid2x4" style="display: none;">
+        <h2 >4. Critical section x race condition x data race</h2>
         <div class="gridspan4_1">
             <img src="assets/example1.jpg" style="width: 40vw;" />
         </div>
 
-        <h2>3.1 this.s after call combine()?</h2>
+        <h2>5. this.s is unpredictable</h2>
         <div>
             <img src="assets/3.1.svg" />
         </div>
@@ -54,8 +74,8 @@
         </div>
     </section>
 
-    <section id="3" class="center grid2x4" style="display: none;">
-        <h2 >4. Atomicity</h2>
+    <section id="4" class="center grid2x4" style="display: none;">
+        <h2 >6. Atomicity</h2>
         <div>
             <img src="assets/4.1.svg"/>
         </div>
@@ -66,33 +86,27 @@
             <img src="assets/4.3.svg"/>
         </div>
 
-        <h2>5. Memory Access Synchronization?</h2>
+        <h2>7. Memory Access Synchronization?</h2>
         <div class="gridspan4_1">
-            <img src="assets/example1.jpg" style="width: 40vw;" />
+            <img src="assets/example2.jpg" style="width: 40vw;" />
         </div>
     </section>
 
-    <section id="4" class="center grid2x4" style="display: none;">
-        <h2 >6. Deadlocks, Livelocks and Starvation</h2>
+    <section id="5" class="center grid2x4" style="display: none;">
+        <h2>8. Deadlock, livelock and starvation</h2>
         <div>
-            <img src="assets/4.1.svg"/>
+            <img src="assets/6.1.svg"/>
         </div>
         <div>
-            <img src="assets/4.2.svg"/>
+            <img src="assets/6.2.svg"/>
         </div>
         <div>
-            <img src="assets/4.3.svg"/>
+            <img src="assets/6.3.svg"/>
         </div>
 
-        <h2>7. Coffman Condition</h2>
-        <div>
-            <img src="assets/4.1.svg"/>
-        </div>
-        <div>
-            <img src="assets/4.2.svg"/>
-        </div>
-        <div>
-            <img src="assets/4.3.svg"/>
+        <h2></h2>
+        <div class="gridspan4_1">
+            <img src="assets/deadlock.png"/>
         </div>
     </section>
 
