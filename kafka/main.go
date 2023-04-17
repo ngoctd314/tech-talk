@@ -8,4 +8,5 @@ func main() {
 	// demo.PartitionCustom()
 	// demo.ProduceWithoutBatching()
 	demo.ProduceWithBatching()
+	// demo.ProduceWithAck()
 }

@@ -13,6 +13,10 @@ const (
 
 var topic = "topic_0"
 
+// conf["debug"] = "msg"
+// conf["batch.num.messages"] = 5
+// conf["linger.ms"] = 5000
+// conf["compression.type"] = "gzip"
 func readConfig() kafka.ConfigMap {
 	m := make(map[string]kafka.ConfigValue)
 	m["bootstrap.servers"] = "pkc-ldvr1.asia-southeast1.gcp.confluent.cloud"
