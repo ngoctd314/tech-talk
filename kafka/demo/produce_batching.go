@@ -2,6 +2,7 @@ package demo
 
 import (
 	"log"
+	"time"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
@@ -10,9 +11,9 @@ import (
 func ProduceWithBatching() {
 	conf := readConfig()
 	conf["debug"] = "msg"
-	conf["batch.num.messages"] = 1
-	// conf["linger.ms"] = 3000
-	// conf["batch.size"] = 1000
+	conf["batch.num.messages"] = 10
+	conf["linger.ms"] = 5000
+	// conf["compression.type"] = "gzip"
 
 	producer, err := kafka.NewProducer(&conf)
 	if err != nil {
@@ -47,15 +48,18 @@ func ProduceWithBatching() {
 		// 	},
 		// 	Value: []byte("admicro's log"),
 		// }, nil)
-		producer.ProduceChannel() <- &kafka.Message{
-			TopicPartition: kafka.TopicPartition{
-				Topic:     &topic,
-				Partition: kafka.PartitionAny,
-			},
-			Value: []byte("admicro's log"),
-		}
+		go func() {
+			producer.ProduceChannel() <- &kafka.Message{
+				TopicPartition: kafka.TopicPartition{
+					Topic:     &topic,
+					Partition: kafka.PartitionAny,
+				},
+				Value: []byte("admicro's log"),
+			}
+		}()
 	}
+	time.Sleep(time.Second)
 
-	// producer.Flush(1000 * 10)
+	producer.Flush(1000 * 10)
 	producer.Close()
 }
