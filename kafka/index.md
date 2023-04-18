@@ -90,4 +90,12 @@ Zookeeper is used for metadata management in the Kafka world.
 
 ## Kafka Topic Partitions and Segments
 
+## Delivery Semantics for Kafka Consumers
 
+A consumer reading from a Kafka partition may choose when to commit offsets. That strategy impacts the behaviors if messages are skipped or read twice upon a consumer restart.
+
+**A Most Once Delivery**
+
+Offsets are committed as soon as a message batch is receive after calling poll(). If the subsequent processing fails, the message will be lost. It will not be read again as the offsets of those messages have been committed already. This may be suitable for systems that can afford to lose data.
+
+**A Least Once Delivery**
