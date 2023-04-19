@@ -99,3 +99,13 @@ A consumer reading from a Kafka partition may choose when to commit offsets. Tha
 Offsets are committed as soon as a message batch is receive after calling poll(). If the subsequent processing fails, the message will be lost. It will not be read again as the offsets of those messages have been committed already. This may be suitable for systems that can afford to lose data.
 
 **A Least Once Delivery**
+
+## Sequential I/O access
+
+## Efficient data transfer through zero copy
+
+Many Web applications serve a significant amount of static content, which amounts to reading data off of a disk and writing the exact same data back to the response socket. It's somewhat inefficient: the kernel reads the data off of disk and pushes it across the kernel-user boundary to be written out to the socket. In effect, the application serves as an inefficient intermediary that gets the data from the disk file to the socket.
+
+Applications that use zero copy request that the kernel copy the data directly from the disk file to the socket, without going through the application. Zero copy greatly improves application performance and reduces the number of the context switches between kernel and user mode.
+
+
