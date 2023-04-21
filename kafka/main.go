@@ -1,5 +1,7 @@
 package main
 
+import "kafka-talk/demo"
+
 func main() {
 	// demo.PartitionRoundRobin()
 	// demo.PartitionMurmur2()
@@ -7,6 +9,6 @@ func main() {
 	// demo.ProduceWithoutBatching()
 	// demo.ProduceWithBatching()
 	// demo.ProduceWithAck()
-	// demo.ConsumerOffset()
+	demo.ConsumerOffset()
 
 }

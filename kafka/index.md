@@ -108,4 +108,10 @@ Many Web applications serve a significant amount of static content, which amount
 
 Applications that use zero copy request that the kernel copy the data directly from the disk file to the socket, without going through the application. Zero copy greatly improves application performance and reduces the number of the context switches between kernel and user mode.
 
+## Exactly once is a really hard problem
 
+Now, i know what some of you are thinking. Exactly-once delivery is impossible, it comes at too high a price to put it to practicall use, or i'm getting all this entirely wrong! You're not along in thinking that. Some of my industry colleagues recognize that exactly-once delivery is one of the hardest problems to solve in distributed systems.
+
+## What is exactly-once semantics? Messaging semantics explained
+
+In a distributed publish-subscribe messaging system, the computers that make up the system can always fail independently of one another. An individual broker can crash, or a network failure can happen while the producer is sending a message to a topic.

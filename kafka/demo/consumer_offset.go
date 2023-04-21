@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
@@ -33,9 +34,12 @@ func ConsumerOffset() {
 	conf := readConfig()
 	topic := "topic_0"
 	conf["debug"] = "msg"
-	conf["group.id"] = "test-consumer"
+	conf["group.id"] = "test-consumers12"
 	conf["enable.auto.commit"] = false
 	conf["auto.offset.reset"] = "earliest"
+	// conf["max.poll.records"] = 1000
+	conf["fetch.max.bytes"] = 5000
+	conf["message.max.bytes"] = 1000
 	// conf["auto.offset.reset"] = "latest"
 
 	consumer, err := kafka.NewConsumer(&conf)
@@ -51,25 +55,37 @@ func ConsumerOffset() {
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 
 	run := true
+	cnt := 0
+	now := time.Now()
 	for run {
 		select {
 		case <-sigChan:
 			run = false
 		default:
-			ev := consumer.Poll(100)
+			now := time.Now()
+			ev := consumer.Poll(5000)
+			if cnt == 0 {
+				redLog.Printf("Time %fs\n", time.Since(now).Seconds())
+			} else {
+
+				cyanLog.Printf("Time %fs\n", time.Since(now).Seconds())
+			}
+			time.Sleep(time.Second)
 			if ev == nil {
+				cyanLog.Println("ev = nil")
 				continue
 			}
 			switch e := ev.(type) {
 			case *kafka.Message:
-				cyanLog.Printf("%% Message on %s:%s\n", e.TopicPartition, string(e.Value))
+				cnt++
+				cyanLog.Printf("%% Message on %s:%s cnt: %d since:%fs\n", e.TopicPartition, string(e.Value), cnt, time.Since(now).Seconds())
 			case kafka.Error:
 				// Errors should generally be considered
 				// informational, the client will try to
 				// automatically recover.
 				// But in this example we choose to terminate
 				// the application if all brokers are down.
-				fmt.Fprintf(os.Stderr, "%% Error: %v: %v\n", e.Code(), e)
+				fmt.Fprintf(os.Stderr, "%% Error: %v: %v, cnt: %d\n", e.Code(), e, cnt)
 				if e.Code() == kafka.ErrAllBrokersDown {
 					run = false
 				}
@@ -78,6 +94,6 @@ func ConsumerOffset() {
 			}
 		}
 	}
-	log.Println("close consumer")
+	log.Printf("close consumer %fs\n", time.Since(now).Seconds())
 	consumer.Close()
 }
